@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user.apps.UserConfig',
+    'messages_board.apps.MessagesBoardConfig'
 
 ]
 
@@ -123,6 +124,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-LOGIN_REDIRECT_URL='messages'
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
+LOGIN_REDIRECT_URL='all_messages'
 LOGOUT_REDIRECT_URL='login'
+AUTH_USER_MODEL='user.CustomUserModel'
+#SILENCED_SYSTEM_CHECKS = ['fields.E300', 'fields.E307']
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

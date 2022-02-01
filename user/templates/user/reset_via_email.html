@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+{%block registration%}
+<form method="post">
+    {%csrf_token%}
+    <p>Username:{{form.username}}</p>
+    <p>{{form.username.errors}}</p>
+    <p>Email:{{form.email}}</p>
+    <p>{{form.email.errors}}</p>
+    <input type="submit" value="Confirm">
+</form>
+
+{%endblock registration%}

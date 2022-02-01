@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div class="dropdown">
+    <button class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" type="button"
+            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        New Dialog
+    </button>
+    <form method="post">
+        {%csrf_token%}
+        <p>{{new_dial.u2}}</p>
+        <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Create new dialog">
+    </form>
+</div>
+{%for d in dialogs%}
+<div class="container">
+    {%if u == d.u2%}
+    <h2>{{d.u1}}</h2>
+    {%else%}
+    <h2>{{d.u2}}</h2>
+    {%endif%}
+    <p>{{d.last_message}}...</p>
+    <a href="{%url 'detail_dialog' d.pk%}" class="btn btn-outline-success my-2 my-sm-0" role="button">Open</a>
+</div>
+{%endfor%}
+{%endblock content%}
+

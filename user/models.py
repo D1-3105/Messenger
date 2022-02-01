@@ -18,3 +18,4 @@ class CustomUserModel(AbstractUser):
         return self.token
     def __str__(self):
         return self.username
+
