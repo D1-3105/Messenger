@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{%block content%}
+<div style="margin:0 auto;" class="container" id="msg_cont">
+    {%for msg in msgs%}
+    <p>{{msg.u1}}</p>
+    <p>{{msg.message}}</p>
+    {%endfor%}
+</div>
+
+<div class="footer">
+    <form method="post">
+        {%csrf_token%}
+        <div class="text-field__group">
+        <textarea class="text-field__input" type="text"  name="search"></textarea>
+        <button class="text-field__btn" type="submit">Send</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    function scrollDown() {
+        document.getElementById('scroll').scrollTop =  document.getElementById('msg_cont').scrollHeight
+    }
+</script>
+
+<style>
+    .footer {
+height : 100px;
+bottom : 0;
+width: 50%;
+position: fixed;
+left: 50%;
+margin-left: -30.5%;
+padding-right: 50px;
+}
+    .text-field__group {
+  display: flex;
+  width:100%;
+}
+/* кнопка */
+.text-field__btn {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: #eee;
+  border: 1px solid #bdbdbd;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  transition: background-color .15s ease-in-out;
+}
+.text-field__btn:hover {
+  background-color: #bdbdbd;
+}
+.text-field__group .text-field__input {
+  border-top-right-radius: 0;
+  width:50%;
+  border-bottom-right-radius: 0;
+  position: relative;
+  z-index: 2;
+}
+.text-field__group .text-field__btn {
+  position: relative;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-width: 0;
+}
+</style>
+{%endblock content%}

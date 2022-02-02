@@ -1,8 +1,15 @@
 {%extends 'base.html'%}
 {%block registration%}
+
+
+
 <form method="post">
     {%csrf_token%}
-    {{form.as_p}}
-    <input type="submit" value="Sign me up!">
+    <p>Username:{{form.username}}</p>
+    <p>Email:{{form.email}}</p>
+    <p>Birth date:{{form.birth_date}}</p>
+    <p>Password:{{form.password1}}</p>
+    <p>Confirm password:{{form.password2}}</p>
+    <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Sign up!">
 </form>
 {%endblock registration%}

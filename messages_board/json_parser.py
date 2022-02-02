@@ -1,8 +1,14 @@
 import json
+import os
+BASE_JSONS='jsons/'
 
 def create_new_json(json_path: str):
+    json_path=BASE_JSONS+json_path
     try:
-        library = open(json_path, 'w+')
+        if not os.path.exists(BASE_JSONS):
+            os.mkdir(BASE_JSONS)
+        library = open(json_path, 'a+')
+        logging('CREATED NEW JSON LIB AT '+json_path)
         return library
     except:
         ret = ReturnToPreventErrors(('FATAL ERROR CANNOT '
@@ -18,13 +24,13 @@ class ReturnToPreventErrors:
         self.text = txt
 
 
-
 def read_json(json_path: str, line_num=-1):
     library = None
+    json_path=BASE_JSONS+json_path
     try:
         library = open(json_path, 'r')
     except:
-        log = open('log', 'a')
+        log = open(BASE_JSONS+'log', 'a')
         forret = ReturnToPreventErrors('ERROR CAN\'T FIND ' + json_path)
         logging(forret.text)
         return forret
@@ -42,21 +48,31 @@ def read_json(json_path: str, line_num=-1):
 
 def iterate_json(json_path:str):
     library=None
+    json_path = BASE_JSONS + json_path
     try:
-        library=open(json_path, 'r')
+        library=open(json_path, 'r+')
     except:
         error=ReturnToPreventErrors("CAN\' FIND JSON LIB WITH ID "+json_path)
         logging(error.text)
+        print(error.text)
+        return error
     while True:
-        cur_json=json.loads(library.readline())
-        if(cur_json==''):
-            break
-        else:
-            yield cur_json
+        try:
+            cur_json=json.loads(library.readline())
+            if (cur_json == ''):
+                break
+            else:
+                yield cur_json
+        except:
+            error=ReturnToPreventErrors("JSON {} LIB IS EMPTY".format(json_path))
+            logging(error.text)
+            return error
+
 
 
 def find_by_name(json_path, username: str):
     current_json = ''
+    json_path = BASE_JSONS + json_path
     with open(json_path, 'r') as library:
         current_json = json.loads(library.readline())
         if username in current_json['u1']:
@@ -67,13 +83,14 @@ def find_by_name(json_path, username: str):
 
 def logging(logmsg):
     try:
-        open('log', 'a').write(logmsg + "\n")
+        open(BASE_JSONS+'log', 'a').write(logmsg + "\n")
         return 1
     except:
         return 0
 
 
 def json_write(u1, u2, json_path, time, message: str):
+    json_path = BASE_JSONS + json_path
     library = create_new_json(json_path)
     if type(library) != ReturnToPreventErrors:
         json_2_write = {

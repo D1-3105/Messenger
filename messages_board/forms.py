@@ -1,3 +1,4 @@
+"""
 from django.forms import ModelForm, CharField
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -47,4 +48,17 @@ class DialogCreateForm(ModelForm):
 
     class Meta:
         model = Dialogs
-        fields=('u2',)
+        fields=('u2',)"""
+
+from django.forms import ModelForm, CharField
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from .models import Dialogs
+
+
+class DialogCreateForm(ModelForm):
+    u2 =CharField()
+    last_message=''
+    class Meta:
+        model = Dialogs
+        fields=('u2','u1','last_message')
