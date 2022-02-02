@@ -27,7 +27,7 @@ class ResetViaEmailView(FormView):
         newQD = QueryDict('', mutable=True)
         newQD.update(old)
         request.POST = newQD
-        send_my_mail('Recover link!', 'reset_message.html',
+        send_my_mail('Recover link!', 'user/reset_message.html',
                      email_from, old['email'], old['username'], '{}{}/{}'.format(
                 request.build_absolute_uri('/accounts/reset_me/'),old['username'],token))
         return super().post(request, *args, **kwargs)
