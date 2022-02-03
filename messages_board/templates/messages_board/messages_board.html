@@ -13,6 +13,7 @@
     </form>
 </div>
 {%for d in dialogs%}
+<center>
 <div class="container">
     {%if u == d.u2%}
     <h2>{{d.u1}}</h2>
@@ -20,8 +21,12 @@
     <h2>{{d.u2}}</h2>
     {%endif%}
     <p>{{d.last_message}}...</p>
+    <center>
     <a href="{%url 'detail_dialog' d.pk%}" class="btn btn-outline-success my-2 my-sm-0" role="button">Open</a>
+    <a href="{%url 'delete_dialog' d.pk%}" class="btn btn-outline-success my-2 my-sm-0" role="button">Delete</a>
+    </center>
 </div>
+</center>
 {%endfor%}
 {%endblock content%}
 

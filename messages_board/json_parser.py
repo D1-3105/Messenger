@@ -23,6 +23,9 @@ class ReturnToPreventErrors:
     def __init__(self, txt):
         self.text = txt
 
+    def __str__(self):
+        return self.text
+
 
 def read_json(json_path: str, line_num=-1):
     library = None
@@ -30,7 +33,6 @@ def read_json(json_path: str, line_num=-1):
     try:
         library = open(json_path, 'r')
     except:
-        log = open(BASE_JSONS+'log', 'a')
         forret = ReturnToPreventErrors('ERROR CAN\'T FIND ' + json_path)
         logging(forret.text)
         return forret
@@ -89,8 +91,19 @@ def logging(logmsg):
         return 0
 
 
+def delete_json(json_path):
+    json_path=BASE_JSONS+json_path
+    try:
+        os.remove(json_path)
+        logging("DELETED LIB: "+json_path)
+        return True
+    except:
+        error=ReturnToPreventErrors("ERROR DURING DELETING "+json_path)
+        logging(error.text)
+        return error
+
+
 def json_write(u1, u2, json_path, time, message: str):
-    json_path = BASE_JSONS + json_path
     library = create_new_json(json_path)
     if type(library) != ReturnToPreventErrors:
         json_2_write = {
@@ -100,7 +113,8 @@ def json_write(u1, u2, json_path, time, message: str):
             'time': time
         }
         logging("SUCCESS WITH APPENDING MESSAGE")
-        library.write(json_2_write)
+        msg=json.dumps(json_2_write)
+        library.write(msg+'\n')
         return 1
     else:
         return library

@@ -20,5 +20,6 @@ class CustomUserModel(AbstractUser):
             self.token+=random.choice(abc)
         return self.token
 
+
     def __str__(self):
         return self.username

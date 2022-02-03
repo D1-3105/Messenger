@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 
 email_from='example@gmail.com'
 
+
 class SignUpView(CreateView):
     template_name = 'user/sign_up.html'
     form_class = CustomUserCreationForm
@@ -31,6 +32,8 @@ class ResetViaEmailView(FormView):
                      email_from, old['email'], old['username'], '{}{}/{}'.format(
                 request.build_absolute_uri('/accounts/reset_me/'),old['username'],token))
         return super().post(request, *args, **kwargs)
+
+
 def send_my_mail(subject, template:str, from_, to, username, url):
     content={
         'username':username,

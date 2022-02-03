@@ -1,11 +1,15 @@
 from django.db import models
 from django.urls import reverse
-
+from . import json_parser
 
 class Dialogs(models.Model):
     id_dial = models.AutoField(primary_key=True)
-    u1 = models.ForeignKey('user.CustomUserModel', related_name='sender', on_delete=models.DO_NOTHING, blank=True)
-    u2 = models.ForeignKey('user.CustomUserModel', related_name='receiver', on_delete=models.DO_NOTHING, blank=True)
+    u1 = models.ForeignKey('user.CustomUserModel',
+                           related_name='%(app_label)s_%(class)s_u1_related',
+                           on_delete=models.DO_NOTHING)
+    u2 = models.ForeignKey('user.CustomUserModel',
+                           related_name='%(app_label)s_%(class)s_u2_related',
+                           on_delete=models.DO_NOTHING)
     last_message = models.TextField()
 
     def change_last(self, newlast):
@@ -19,8 +23,15 @@ class Dialogs(models.Model):
         return formalized
 
     def in_dial(self, user):
-        print(self.u1.pk == user.pk, self.u2.pk == user.pk)
-        return (self.u1.pk==user.pk)+(self.u2.pk==user.pk)
+        return [self.u1.pk==user.pk, self.u2.pk==user.pk]
+
+    def get_both_users(self):
+        return [self.u1, self.u2]
+
+    def delete(self, using=None, keep_parents=True, full=True):
+        if full:
+            json_parser.delete_json(str(self.id_dial))
+        return super().delete(using, keep_parents)
 
     class Meta:
         unique_together=('u1','u2')
