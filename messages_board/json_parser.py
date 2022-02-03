@@ -84,6 +84,8 @@ def find_by_name(json_path, username: str):
 
 
 def logging(logmsg):
+    if not os.path.exists(BASE_JSONS):
+        os.mkdir(BASE_JSONS)
     try:
         open(BASE_JSONS+'log', 'a').write(logmsg + "\n")
         return 1

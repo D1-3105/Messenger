@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from . import json_parser
 
+
 class Dialogs(models.Model):
     id_dial = models.AutoField(primary_key=True)
     u1 = models.ForeignKey('user.CustomUserModel',

@@ -1,13 +1,12 @@
 from django.shortcuts import render, reverse, redirect
 from . import json_parser
-from django.views.generic import View, DeleteView
+from django.views.generic import View
 from django.contrib.auth import get_user_model, get_user
 from .forms import DialogCreateForm
 from django.db.models import Q
-from django.http import QueryDict, HttpResponse
+from django.http import QueryDict
 import datetime
 from .models import Dialogs
-from django.urls import reverse_lazy
 
 class MsgBoardView(View):
     model = Dialogs
