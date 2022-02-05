@@ -1,18 +1,19 @@
 from django.shortcuts import render, reverse, redirect
 from . import json_parser
 from django.views.generic import View
-from django.contrib.auth import get_user_model, get_user
+from django.contrib.auth import get_user_model, get_user, mixins
 from .forms import DialogCreateForm
 from django.db.models import Q
 from django.http import QueryDict
 import datetime
 from .models import Dialogs
 
-class MsgBoardView(View):
+
+class MsgBoardView(mixins.LoginRequiredMixin,View):
     model = Dialogs
     template_name = 'messages_board/messages_board.html'
     form = DialogCreateForm
-
+    login_url = 'login'
     def get(self, request, *args, **kwargs):
         qset = self.model.objects.filter(Q(u1=request.user) | Q(u2=request.user))
         objects = qset.all()
@@ -42,9 +43,9 @@ class MsgBoardView(View):
             return redirect(reverse('404'))
 
 
-class DialogView(View):
+class DialogView(mixins.LoginRequiredMixin, View):
     template_name='messages_board/dialog.html'
-
+    login_url = 'login'
     def get(self, request, *args, **kwargs):
         id_ = kwargs['pk']
         host = get_user(request)
@@ -52,7 +53,7 @@ class DialogView(View):
         dial = Dialogs.objects.get(id_dial=id_)
         u2 = None
         # u2 is a user which not u1!
-        if host.is_authenticated and dial.in_dial(host).count(False) != 2:
+        if dial.in_dial(host).count(False) != 2:
             try:
                 u2 = dial.get_both_users()[dial.in_dial(host).index(False)]
             except:
@@ -99,9 +100,9 @@ class DialogView(View):
         return redirect(dial.get_absolute_url())
 
 
-class DeleteDialogView(View):
+class DeleteDialogView(mixins.LoginRequiredMixin, View):
     model = Dialogs
-
+    login_url = 'login'
     def get(self, request,**kwargs):
         id_=kwargs['pk']
         user=get_user(request)

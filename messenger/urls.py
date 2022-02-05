@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('user.urls')),
     path('accounts/', include("django.contrib.auth.urls")),
+    path('', include('user.urls')),
     path('messages/', include('messages_board.urls')),
     path('FORBIDDEN/', TemplateView.as_view(template_name='403.html'), name='403')
 ]
