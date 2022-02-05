@@ -131,3 +131,14 @@ AUTH_USER_MODEL='user.CustomUserModel'
 #SILENCED_SYSTEM_CHECKS = ['fields.E300', 'fields.E307']
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 django_heroku.settings(locals())
+
+
+import os, subprocess, dj_database_url
+try:
+    bashCommand = "heroku config:get DATABASE_URL -a messenger-2281337" #Use your app_name
+
+    output = subprocess.check_output(['bash','-c', bashCommand]).decode("utf-8") # executing the bash command and converting byte to string
+
+    DATABASES['default'] = dj_database_url.config(default=output,conn_max_age=600, ssl_require=True) #making connection to heroku DB without having to set DATABASE_URL env variable
+except:
+    pass
