@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -130,3 +130,4 @@ LOGOUT_REDIRECT_URL='login'
 AUTH_USER_MODEL='user.CustomUserModel'
 #SILENCED_SYSTEM_CHECKS = ['fields.E300', 'fields.E307']
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+django_heroku.settings(locals())

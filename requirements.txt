@@ -11,3 +11,5 @@ sqlparse==0.4.2
 tzdata==2021.5
 virtualenv==20.13.0
 virtualenv-clone==0.5.7
+gunicorn=19.9.0
+django-heroku=0.3.1
