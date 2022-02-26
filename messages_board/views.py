@@ -14,6 +14,7 @@ class MsgBoardView(mixins.LoginRequiredMixin,View):
     template_name = 'messages_board/messages_board.html'
     form = DialogCreateForm
     login_url = 'login'
+
     def get(self, request, *args, **kwargs):
         qset = self.model.objects.filter(Q(u1=request.user) | Q(u2=request.user))
         objects = qset.all()
@@ -107,7 +108,8 @@ class DeleteDialogView(mixins.LoginRequiredMixin, View):
         id_=kwargs['pk']
         user=get_user(request)
         dial=Dialogs.objects.get(id_dial=id_)
-        if user.is_authenticated and user in dial.in_dial(user):
+
+        if user.is_authenticated and (True in dial.in_dial(user)):
             dial.delete(full=True)
             return redirect(reverse('all_messages'))
         else:
